@@ -1,34 +1,58 @@
 body {
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  #contenedor-semaforo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    background: #222;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  }
-  
-  .semaforo {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .circulo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: gray;
-    border: 3px solid #000;
-  }
-  
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#contenedor-semaforo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #222;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.semaforo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.circulo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: gray;
+  border: 3px solid #000;
+  opacity: 0.3;
+  box-shadow: 0 0 10px transparent;
+  transition: 
+    opacity 0.3s ease, 
+    background-color 0.3s ease, 
+    box-shadow 0.3s ease;
+}
+
+/* Clases para luces activas */
+.activo-rojo {
+  background-color: red;
+  opacity: 1;
+  box-shadow: 0 0 25px red;
+}
+
+.activo-amarillo {
+  background-color: yellow;
+  opacity: 1;
+  box-shadow: 0 0 25px yellow;
+}
+
+.activo-verde {
+  background-color: limegreen;
+  opacity: 1;
+  box-shadow: 0 0 25px limegreen;
+}

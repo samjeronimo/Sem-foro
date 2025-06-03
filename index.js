@@ -1,38 +1,42 @@
+// index.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 import { crearSemaforo } from "./semaforo.js";
 
-// Crear semáforo y obtener referencias
+// Configuración Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyAc06Rp1NRMHljlmYb0TxWeITVmLB9WkQw",
+  authDomain: "semaforoscl-395f3.firebaseapp.com",
+  databaseURL: "https://semaforoscl-395f3-default-rtdb.firebaseio.com",
+  projectId: "semaforoscl-395f3",
+  storageBucket: "semaforoscl-395f3.appspot.com",
+  messagingSenderId: "697041747774",
+  appId: "1:697041747774:web:1ef353f40a716d835e4cf7"
+};
+
+// Inicializar Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const estadoRef = ref(database, 'semaforo/estado'); // ✅ referencia correcta
+
+// Crear semáforo en el DOM
 const luces = crearSemaforo();
 
-// Función para encender una luz
-function actualizarSemaforo(valor) {
-  luces.rojo.style.backgroundColor = "gray";
-  luces.amarillo.style.backgroundColor = "gray";
-  luces.verde.style.backgroundColor = "gray";
+// Actualizar semáforo con texto ("rojo", "amarillo", "verde")
+function actualizarSemaforo(color) {
+  luces.rojo.className = "circulo";
+  luces.amarillo.className = "circulo";
+  luces.verde.className = "circulo";
 
-  if (valor === 1) {
-    luces.rojo.style.backgroundColor = "red";
-  } else if (valor === 2) {
-    luces.amarillo.style.backgroundColor = "yellow";
-  } else if (valor === 3) {
-    luces.verde.style.backgroundColor = "green";
-  }
+  if (color === "rojo") luces.rojo.classList.add("activo-rojo");
+  else if (color === "amarillo") luces.amarillo.classList.add("activo-amarillo");
+  else if (color === "verde") luces.verde.classList.add("activo-verde");
 }
 
-// Función para consultar ThingSpeak
-async function leerThingSpeak() {
-  const channelID = "TU_CHANNEL_ID";  // <-- CAMBIA ESTO
-  const apiKey = "TU_API_KEY";        // <-- CAMBIA ESTO si es necesario
 
-  try {
-    const res = await fetch(`https://api.thingspeak.com/channels/${channelID}/fields/1/last.json?api_key=${apiKey}`);
-    const data = await res.json();
-    const valor = parseInt(data.field1);
-    console.log("Valor recibido:", valor);
-    actualizarSemaforo(valor);
-  } catch (e) {
-    console.error("Error al consultar ThingSpeak:", e);
-  }
-}
-
-// Llamar cada 5 segundos
-setInterval(leerThingSpeak, 5000);
+// ✅ Escuchar cambios correctamente
+onValue(estadoRef, (snapshot) => {
+  const valor = snapshot.val(); // ahora sí está definido
+  console.log("✅ Valor desde Firebase:", valor);
+  actualizarSemaforo(valor); // ya no uses parseInt, es texto
+});
