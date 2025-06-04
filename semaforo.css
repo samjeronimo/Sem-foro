@@ -101,3 +101,13 @@
   grid-row: 2/3;
   grid-column: 1/2;
 }
+
+.btn-automatico {
+  background-color: #444;
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}

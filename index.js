@@ -31,43 +31,80 @@ const luces = crearSemaforo();
 // ⬅️ Estado local actual (para evitar escrituras duplicadas)
 let estadoActual = "";
 
-// ⚡ Actualizar DOM según estado
 function actualizarSemaforo(color) {
-  // Limpiar todas las luces
   luces.rojo.className = "circulo";
   luces.amarillo.className = "circulo";
   luces.verde.className = "circulo";
 
-  // Activar la luz correspondiente
   if (color === "rojo") luces.rojo.classList.add("activo-rojo");
   else if (color === "amarillo") luces.amarillo.classList.add("activo-amarillo");
   else if (color === "verde") luces.verde.classList.add("activo-verde");
+
+  // No aplicar nada por defecto para "automatico"
 }
 
-// 🔁 Escuchar cambios desde Firebase en tiempo real
-onValue(estadoRef, (snapshot) => {
-  const valor = snapshot.val();
-  if (valor !== estadoActual) {
-    estadoActual = valor;
-    actualizarSemaforo(valor);
-    console.log("✅ Estado actualizado desde Firebase:", valor);
+
+const colorActualRef = ref(database, 'semaforo/colorActual');
+
+onValue(colorActualRef, (snapshot) => {
+  const colorActual = snapshot.val();
+  // Solo actualizar semáforo con colorActual si el estado es automático
+  if (estadoActual === "automatico" && colorActual) {
+    actualizarSemaforo(colorActual);
+    console.log("🔄 Color actual automático:", colorActual);
   }
 });
+
+
 
 // ⬆️ Cambiar estado en Firebase si es diferente al actual
 function cambiarEstado(nuevoEstado) {
   if (nuevoEstado !== estadoActual) {
     set(estadoRef, nuevoEstado);
+    estadoActual = nuevoEstado;           // <- Actualizas localmente
+    actualizarSemaforo(nuevoEstado);     // <- Actualizas interfaz inmediatamente
   }
 }
 
-// 🎛️ Eventos de botones para cambiar estado del semáforo
+
+//Eventos de botones para cambiar estado del semáforo
 luces.btn_red.addEventListener('click', () => cambiarEstado("rojo"));
 luces.btn_yellow.addEventListener('click', () => cambiarEstado("amarillo"));
 luces.btn_green.addEventListener('click', () => cambiarEstado("verde"));
 luces.btn_off.addEventListener('click', () => cambiarEstado("apagado"));
 
-// 🧩 Inicializar valor si no existe en la base
+let modoAutomaticoActivo = false;
+
+async function iniciarModoAutomatico() {
+  cambiarEstado("automatico"); //Esto activa el modo automático en la Raspberry
+  modoAutomaticoActivo = true;
+  luces.btn_auto.textContent = "Detener Automático";
+}
+
+
+function detenerModoAutomatico() {
+  cambiarEstado("apagado");
+  modoAutomaticoActivo = false;
+  luces.btn_auto.textContent = "Automático";
+}
+
+
+function esperar(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+//Botón automático
+luces.btn_auto.addEventListener('click', () => {
+  if (!modoAutomaticoActivo) {
+    iniciarModoAutomatico();
+  } else {
+    detenerModoAutomatico();
+  }
+});
+
+
+
+//Inicializar valor si no existe en la base
 get(estadoRef).then(snapshot => {
   if (!snapshot.exists()) {
     set(estadoRef, "apagado");

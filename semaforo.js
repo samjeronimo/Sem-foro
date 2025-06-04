@@ -47,5 +47,11 @@ export function crearSemaforo() {
   btn_off.textContent = "Apagar";
   body.appendChild(btn_off);
 
-  return { rojo, amarillo, verde, btn_red, btn_yellow, btn_green, btn_off };
+  const btn_auto = document.createElement('button');
+  btn_auto.className = "btn-automatico";
+  btn_auto.textContent = "Automático";
+  body.appendChild(btn_auto);
+
+
+  return { rojo, amarillo, verde, btn_red, btn_yellow, btn_green, btn_off, btn_auto};
 }
