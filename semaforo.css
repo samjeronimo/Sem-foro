@@ -1,21 +1,27 @@
-body {
+.body {
   background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 80px 35rem;
   height: 100vh;
   margin: 0;
+  padding: 3rem;
 }
 
-#contenedor-semaforo {
+.contenedor-semaforo {
+  width: 10rem;
+  height: 20rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
+  margin: 3rem auto;
   padding: 20px;
-  background: #222;
+  background: #222; 
   border-radius: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+  grid-row: 2/3;
+  grid-column: 1/2;
 }
 
 .semaforo {
@@ -55,4 +61,43 @@ body {
   background-color: limegreen;
   opacity: 1;
   box-shadow: 0 0 25px limegreen;
+}
+
+
+.btn-rojo {
+  width: 6rem;
+  height: 3rem;
+  margin: 25rem auto;
+  border-radius: 12px;
+  background-color: red;
+  color: white;
+
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.btn-yellow {
+  width: 6rem;
+  height: 3rem;
+  margin-top: auto;
+  margin: 25rem auto;
+  margin-right: 15rem;
+  border-radius: 12px;
+  background-color: yellow;
+
+  grid-row: 2/3;
+  grid-column: 1/2;
+}
+
+.btn_green {
+  width: 6rem;
+  height: 3rem;
+  color: white;
+  margin: 25rem auto;
+  margin-left: 15rem;
+  border-radius: 12px;
+  background-color: green;
+
+  grid-row: 2/3;
+  grid-column: 1/2;
 }
