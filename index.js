@@ -39,8 +39,6 @@ function actualizarSemaforo(color) {
   if (color === "rojo") luces.rojo.classList.add("activo-rojo");
   else if (color === "amarillo") luces.amarillo.classList.add("activo-amarillo");
   else if (color === "verde") luces.verde.classList.add("activo-verde");
-
-  // No aplicar nada por defecto para "automatico"
 }
 
 
@@ -112,4 +110,31 @@ get(estadoRef).then(snapshot => {
     estadoActual = snapshot.val();
     actualizarSemaforo(estadoActual);
   }
+});
+
+const sensorRef = ref(database, 'sensor');
+
+// Función para actualizar los valores del sensor en el frontend
+function actualizarValoresSensor(temperatura, humedad) {
+  const tempElement = document.querySelector('.sensor h2:nth-child(1)');
+  const humElement = document.querySelector('.sensor h2:nth-child(2)');
+  
+  if (tempElement) tempElement.textContent = `Temperatura: ${temperatura}°C`;
+  if (humElement) humElement.textContent = `Humedad: ${humedad}%`;
+}
+
+// Escuchar cambios en los valores del sensor
+onValue(sensorRef, (snapshot) => {
+  const datosSensor = snapshot.val();
+  if (datosSensor) {
+    console.log("📊 Datos del sensor recibidos:", datosSensor);
+    actualizarValoresSensor(datosSensor.temperatura, datosSensor.humedad);
+  }
+});
+
+// Cargar el sensor en el DOM
+document.addEventListener('DOMContentLoaded', () => {
+  const contenedor = document.body; // o el contenedor específico donde quieras poner el sensor
+  const sensorElement = cargarSensor();
+  contenedor.appendChild(sensorElement);
 });

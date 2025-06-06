@@ -1,14 +1,13 @@
 function cargarSensor() {
-
     let sensor = document.createElement('div');
     sensor.className = "sensor";
 
     let temp = document.createElement('h2');
-    temp.textContent = "Temperatura:";
+    temp.textContent = "Temperatura: --°C";  // Valor inicial
     sensor.appendChild(temp);
 
     let hum = document.createElement('h2');
-    hum.textContent = "Humedad:";
+    hum.textContent = "Humedad: --%";       // Valor inicial
     sensor.appendChild(hum);
 
     let gif = document.createElement("img");
@@ -16,10 +15,7 @@ function cargarSensor() {
     gif.alt = "GIF animado";
     sensor.appendChild(gif);
 
-
     return sensor;
-
 }
-
 
 export { cargarSensor }
