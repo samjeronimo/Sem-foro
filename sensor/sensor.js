@@ -11,8 +11,9 @@ function cargarSensor() {
     sensor.appendChild(hum);
 
     let gif = document.createElement("img");
-    gif.src = "https://img1.picmix.com/output/stamp/normal/7/8/5/4/1634587_5478b.gif"; 
-    gif.alt = "GIF animado";
+    gif.id = "ventilador-img";  // 🔑 ID para poder modificar luego
+    gif.src = "https://groupesebcol.vtexassets.com/arquivos/ids/160237/7702073345103-1.jpg?v=637866627976300000";  // Ruta local a tu imagen PNG
+    gif.alt = "Ventilador estático";
     sensor.appendChild(gif);
 
     return sensor;

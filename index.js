@@ -129,6 +129,18 @@ onValue(sensorRef, (snapshot) => {
   if (datosSensor) {
     console.log("📊 Datos del sensor recibidos:", datosSensor);
     actualizarValoresSensor(datosSensor.temperatura, datosSensor.humedad);
+
+    const ventiladorImg = document.getElementById("ventilador-img");
+
+    if (ventiladorImg) {
+      if (datosSensor.temperatura >= 30) {
+        ventiladorImg.src = "https://img1.picmix.com/output/stamp/normal/7/8/5/4/1634587_5478b.gif";
+        ventiladorImg.alt = "Ventilador en movimiento";
+      } else {
+        ventiladorImg.src = "https://groupesebcol.vtexassets.com/arquivos/ids/160237/7702073345103-1.jpg?v=637866627976300000"; // Tu imagen estática
+        ventiladorImg.alt = "Ventilador apagado";
+      }
+    }
   }
 });
 
