@@ -1,3 +1,6 @@
+import { cargarSensor } from "./sensor/sensor.js";
+import { cargarHeader } from "./header/header.js";
+
 export function crearSemaforo() {
   const body = document.querySelector('#root');
   body.className = "body";
@@ -26,6 +29,8 @@ export function crearSemaforo() {
   semaforo.appendChild(verde);
   contenedor.appendChild(semaforo);
   body.appendChild(contenedor);
+  body.appendChild(cargarSensor());
+  body.appendChild(cargarHeader());
 
   const btn_red = document.createElement('button');
   btn_red.className = "btn-rojo";
